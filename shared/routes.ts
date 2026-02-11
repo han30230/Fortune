@@ -41,9 +41,18 @@ export const api = {
     analyze: {
       method: 'POST' as const,
       path: '/api/saju/analyze' as const,
-      input: z.any(),
+      input: z.object({
+        name: z.string(),
+        birthDate: z.string(),
+        birthTime: z.string(),
+        gender: z.string(),
+        calendarType: z.string(),
+      }),
       responses: {
-        200: z.any()
+        200: z.object({
+          pillars: z.any(),
+          interpretation: z.string()
+        })
       }
     }
   }
