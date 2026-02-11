@@ -1,0 +1,147 @@
+{
+  "colorScheme": "light",
+  "fonts": [
+    {
+      "family": "Pretendard",
+      "role": "body"
+    },
+    {
+      "family": "Roboto",
+      "role": "body"
+    },
+    {
+      "family": "Noto Sans KR",
+      "role": "body"
+    }
+  ],
+  "colors": {
+    "primary": "#111623",
+    "accent": "#19212D",
+    "background": "#10141E",
+    "textPrimary": "#10141E",
+    "link": "#19212D"
+  },
+  "typography": {
+    "fontFamilies": {
+      "primary": "Pretendard",
+      "heading": "Pretendard"
+    },
+    "fontStacks": {
+      "heading": [
+        "Pretendard",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "system-ui",
+        "Roboto",
+        "Helvetica Neue",
+        "Segoe UI",
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        "Malgun Gothic",
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        "sans-serif"
+      ],
+      "body": [
+        "Pretendard",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "system-ui",
+        "Roboto",
+        "Helvetica Neue",
+        "Segoe UI",
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        "Malgun Gothic",
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        "sans-serif"
+      ],
+      "paragraph": [
+        "Pretendard",
+        "-apple-system",
+        "BlinkMacSystemFont",
+        "system-ui",
+        "Roboto",
+        "Helvetica Neue",
+        "Segoe UI",
+        "Apple SD Gothic Neo",
+        "Noto Sans KR",
+        "Malgun Gothic",
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        "sans-serif"
+      ]
+    },
+    "fontSizes": {
+      "h1": "20px",
+      "h2": "20px",
+      "body": "14px"
+    }
+  },
+  "spacing": {
+    "baseUnit": 4,
+    "borderRadius": "4px"
+  },
+  "components": {
+    "input": {
+      "background": "#19212D",
+      "textColor": "#FFFFFF",
+      "borderColor": "#4B5563",
+      "borderRadius": "8px",
+      "borderRadiusCorners": {
+        "topLeft": "8px",
+        "topRight": "8px",
+        "bottomRight": "8px",
+        "bottomLeft": "8px"
+      },
+      "shadow": "rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0) 0px 0px 0px 0px, rgba(0, 0, 0, 0.05) 0px 1px 2px 0px"
+    }
+  },
+  "images": {
+    "logo": "File saved at: attached_assets/logo.svg",
+    "favicon": "https://cdn.theddari.com/favicons/favicon-16x16.png",
+    "ogImage": "https://cdn.theddari.com/theddari_og.png",
+    "logoHref": "File saved at: attached_assets/logoHref.html"
+  },
+  "__framework_hints": [],
+  "__llm_logo_reasoning": {
+    "selectedIndex": 0,
+    "reasoning": "Selected #0 because it is located in the header, is visible, and links to the homepage, which aligns with the brand '더따리'.",
+    "confidence": 0.9,
+    "source": "llm"
+  },
+  "personality": {
+    "tone": "professional",
+    "energy": "medium",
+    "targetAudience": "cryptocurrency traders"
+  },
+  "designSystem": {
+    "framework": "custom",
+    "componentLibrary": ""
+  },
+  "confidence": {
+    "buttons": 0.5,
+    "colors": 0.9,
+    "overall": 0.7
+  },
+  "__llm_metadata": {
+    "logoSelection": {
+      "llmCalled": true,
+      "llmSucceeded": true,
+      "finalSource": "llm",
+      "rawLogoSelection": {
+        "selectedLogoIndex": 0,
+        "selectedLogoReasoning": "Selected #0 because it is located in the header, is visible, and links to the homepage, which aligns with the brand '더따리'.",
+        "confidence": 0.9
+      }
+    },
+    "buttonClassification": {
+      "llmCalled": false,
+      "llmSucceeded": true
+    }
+  }
+}

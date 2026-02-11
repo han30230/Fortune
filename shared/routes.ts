@@ -1,22 +1,49 @@
 import { z } from 'zod';
-import { analyzeSajuSchema } from './schema';
+import { insertFavoriteSchema } from './schema';
 
 export const api = {
+  crypto: {
+    premiums: {
+      method: 'GET' as const,
+      path: '/api/crypto/premiums' as const,
+      responses: {
+        200: z.array(z.object({
+          symbol: z.string(),
+          name: z.string(),
+          domesticPrice: z.number(),
+          globalPrice: z.number(),
+          premium: z.number(),
+          change24h: z.number(),
+          volume24h: z.number(),
+          logo: z.string().optional()
+        }))
+      }
+    },
+    favorites: {
+      list: {
+        method: 'GET' as const,
+        path: '/api/crypto/favorites' as const,
+        responses: {
+          200: z.array(z.string())
+        }
+      },
+      add: {
+        method: 'POST' as const,
+        path: '/api/crypto/favorites' as const,
+        input: insertFavoriteSchema,
+        responses: {
+          201: z.object({ success: z.boolean() })
+        }
+      }
+    }
+  },
   saju: {
     analyze: {
       method: 'POST' as const,
       path: '/api/saju/analyze' as const,
-      input: analyzeSajuSchema,
+      input: z.any(),
       responses: {
-        200: z.object({
-          pillars: z.object({
-            year: z.object({ gan: z.string(), zhi: z.string(), ganKorean: z.string(), zhiKorean: z.string() }),
-            month: z.object({ gan: z.string(), zhi: z.string(), ganKorean: z.string(), zhiKorean: z.string() }),
-            day: z.object({ gan: z.string(), zhi: z.string(), ganKorean: z.string(), zhiKorean: z.string() }),
-            hour: z.object({ gan: z.string(), zhi: z.string(), ganKorean: z.string(), zhiKorean: z.string() }),
-          }),
-          interpretation: z.string()
-        })
+        200: z.any()
       }
     }
   }

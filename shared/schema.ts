@@ -1,48 +1,50 @@
-import { pgTable, text, serial, timestamp, jsonb } from "drizzle-orm/pg-core";
+import { pgTable, text, serial, timestamp, doublePrecision, integer } from "drizzle-orm/pg-core";
 import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
+// Cryptocurrency exchanges
+export const exchanges = pgTable("exchanges", {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull().unique(), // e.g., "Upbit", "Binance"
+  country: text("country").notNull(), // "KR" or "Global"
+  logo: text("logo"),
+});
+
+// Cryptocurrency price data (for premium calculation)
+export const prices = pgTable("prices", {
+  id: serial("id").primaryKey(),
+  symbol: text("symbol").notNull(), // e.g., "BTC", "ETH"
+  exchangeId: integer("exchange_id").references(() => exchanges.id),
+  price: doublePrecision("price").notNull(),
+  currency: text("currency").notNull(), // "KRW", "USDT"
+  updatedAt: timestamp("updated_at").defaultNow(),
+});
+
+// User favorites for tracking specific coin premiums
+export const favorites = pgTable("favorites", {
+  id: serial("id").primaryKey(),
+  symbol: text("symbol").notNull(),
+  userId: text("user_id"), // Optional if we use Replit Auth later
+  createdAt: timestamp("created_at").defaultNow(),
+});
+
+// Saju logs (keeping existing functionality but it's secondary now)
 export const sajuLogs = pgTable("saju_logs", {
   id: serial("id").primaryKey(),
   name: text("name").notNull(),
-  birthDate: text("birth_date").notNull(), // ISO date string YYYY-MM-DD
-  birthTime: text("birth_time").notNull(), // HH:mm
-  gender: text("gender").notNull(), // 'male' | 'female'
-  calendarType: text("calendar_type").notNull(), // 'solar' | 'lunar'
-  pillars: jsonb("pillars").notNull(), // Store the 4 pillars data
+  birthDate: text("birth_date").notNull(),
+  birthTime: text("birth_time").notNull(),
+  gender: text("gender").notNull(),
+  calendarType: text("calendar_type").notNull(),
+  pillars: text("pillars").notNull(), 
   interpretation: text("interpretation").notNull(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
-export const insertSajuLogSchema = createInsertSchema(sajuLogs).omit({
-  id: true,
-  createdAt: true,
-  interpretation: true,
-  pillars: true // Calculated on server
-});
+export const insertExchangeSchema = createInsertSchema(exchanges).omit({ id: true });
+export const insertPriceSchema = createInsertSchema(prices).omit({ id: true, updatedAt: true });
+export const insertFavoriteSchema = createInsertSchema(favorites).omit({ id: true, createdAt: true });
 
-export type SajuLog = typeof sajuLogs.$inferSelect;
-export type InsertSajuLog = z.infer<typeof insertSajuLogSchema>;
-
-// API Request/Response
-export const analyzeSajuSchema = insertSajuLogSchema;
-export type AnalyzeSajuRequest = z.infer<typeof analyzeSajuSchema>;
-
-export interface Pillar {
-  gan: string; // Heavenly Stem (Hanja)
-  zhi: string; // Earthly Branch (Hanja)
-  ganKorean: string;
-  zhiKorean: string;
-}
-
-export interface SajuResult {
-  year: Pillar;
-  month: Pillar;
-  day: Pillar;
-  hour: Pillar;
-}
-
-export interface AnalyzeSajuResponse {
-  pillars: SajuResult;
-  interpretation: string;
-}
+export type Exchange = typeof exchanges.$inferSelect;
+export type Price = typeof prices.$inferSelect;
+export type Favorite = typeof favorites.$inferSelect;
