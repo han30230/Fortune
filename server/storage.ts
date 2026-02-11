@@ -1,37 +1,21 @@
-import { type User, type InsertUser } from "@shared/schema";
-import { randomUUID } from "crypto";
-
-// modify the interface with any CRUD methods
-// you might need
+import { sajuLogs, type SajuLog, type InsertSajuLog } from "@shared/schema";
+import { db } from "./db";
+import { eq } from "drizzle-orm";
 
 export interface IStorage {
-  getUser(id: string): Promise<User | undefined>;
-  getUserByUsername(username: string): Promise<User | undefined>;
-  createUser(user: InsertUser): Promise<User>;
+  createSajuLog(log: InsertSajuLog): Promise<SajuLog>;
+  getSajuLog(id: number): Promise<SajuLog | undefined>;
 }
 
 export class MemStorage implements IStorage {
-  private users: Map<string, User>;
-
-  constructor() {
-    this.users = new Map();
+  async createSajuLog(log: InsertSajuLog): Promise<SajuLog> {
+    const [newLog] = await db.insert(sajuLogs).values(log).returning();
+    return newLog;
   }
 
-  async getUser(id: string): Promise<User | undefined> {
-    return this.users.get(id);
-  }
-
-  async getUserByUsername(username: string): Promise<User | undefined> {
-    return Array.from(this.users.values()).find(
-      (user) => user.username === username,
-    );
-  }
-
-  async createUser(insertUser: InsertUser): Promise<User> {
-    const id = randomUUID();
-    const user: User = { ...insertUser, id };
-    this.users.set(id, user);
-    return user;
+  async getSajuLog(id: number): Promise<SajuLog | undefined> {
+    const [log] = await db.select().from(sajuLogs).where(eq(sajuLogs.id, id));
+    return log;
   }
 }
 
