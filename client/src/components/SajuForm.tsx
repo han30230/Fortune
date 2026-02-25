@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { analyzeSajuSchema, type AnalyzeSajuRequest } from "@shared/schema";
+import { analyzeSajuSchema, fortuneTypeOptions, type AnalyzeSajuRequest } from "@shared/schema";
 import {
   Form,
   FormControl,
@@ -35,6 +35,7 @@ export function SajuForm({ onSubmit, isPending }: SajuFormProps) {
       birthTime: "",
       gender: "male",
       calendarType: "solar",
+      fortuneType: "today",
     },
   });
 
@@ -53,7 +54,7 @@ export function SajuForm({ onSubmit, isPending }: SajuFormProps) {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-primary font-medium">Name (이름)</FormLabel>
+                  <FormLabel className="text-primary font-medium">이름</FormLabel>
                   <FormControl>
                     <Input 
                       placeholder="홍길동" 
@@ -72,7 +73,7 @@ export function SajuForm({ onSubmit, isPending }: SajuFormProps) {
                 name="birthDate"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-primary font-medium">Date (생년월일)</FormLabel>
+                    <FormLabel className="text-primary font-medium">생년월일</FormLabel>
                     <FormControl>
                       <Input 
                         type="date" 
@@ -90,7 +91,7 @@ export function SajuForm({ onSubmit, isPending }: SajuFormProps) {
                 name="birthTime"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-primary font-medium">Time (태어난 시간)</FormLabel>
+                    <FormLabel className="text-primary font-medium">태어난 시간</FormLabel>
                     <FormControl>
                       <Input 
                         type="time" 
@@ -110,7 +111,7 @@ export function SajuForm({ onSubmit, isPending }: SajuFormProps) {
                 name="gender"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-primary font-medium">Gender (성별)</FormLabel>
+                    <FormLabel className="text-primary font-medium">성별</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger className="bg-background/50 border-accent/20 focus:border-accent focus:ring-accent/20 h-12">
@@ -118,8 +119,8 @@ export function SajuForm({ onSubmit, isPending }: SajuFormProps) {
                         </SelectTrigger>
                       </FormControl>
                       <SelectContent>
-                        <SelectItem value="male">Male (남성)</SelectItem>
-                        <SelectItem value="female">Female (여성)</SelectItem>
+                        <SelectItem value="male">남성</SelectItem>
+                        <SelectItem value="female">여성</SelectItem>
                       </SelectContent>
                     </Select>
                     <FormMessage />
@@ -132,7 +133,7 @@ export function SajuForm({ onSubmit, isPending }: SajuFormProps) {
                 name="calendarType"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel className="text-primary font-medium">Calendar (양력/음력)</FormLabel>
+                    <FormLabel className="text-primary font-medium">양력/음력</FormLabel>
                     <Select onValueChange={field.onChange} defaultValue={field.value}>
                       <FormControl>
                         <SelectTrigger className="bg-background/50 border-accent/20 focus:border-accent focus:ring-accent/20 h-12">
@@ -160,6 +161,31 @@ export function SajuForm({ onSubmit, isPending }: SajuFormProps) {
               />
             </div>
 
+            <FormField
+              control={form.control}
+              name="fortuneType"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-primary font-medium">운세 종류</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value || "today"}>
+                    <FormControl>
+                      <SelectTrigger className="bg-background/50 border-accent/20 focus:border-accent focus:ring-accent/20 h-12">
+                        <SelectValue placeholder="운세 종류 선택" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      {fortuneTypeOptions.map((opt) => (
+                        <SelectItem key={opt.value} value={opt.value}>
+                          {opt.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             <Button
               type="submit"
               disabled={isPending}
@@ -171,7 +197,7 @@ export function SajuForm({ onSubmit, isPending }: SajuFormProps) {
                   Reading Destiny...
                 </span>
               ) : (
-                "Reveal Destiny (운명 확인하기)"
+                "운세 확인하기 →"
               )}
             </Button>
           </form>

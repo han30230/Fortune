@@ -21,7 +21,7 @@ export function Interpretation({ text }: InterpretationProps) {
         <div className="absolute bottom-4 right-4 w-16 h-16 border-b-2 border-r-2 border-accent/30 rounded-br-xl" />
 
         <h3 className="text-2xl font-serif font-bold text-center text-primary mb-8">
-          Detailed Interpretation
+          해설
         </h3>
 
         <div className="prose prose-stone prose-headings:font-serif prose-headings:text-primary prose-p:text-stone-600 prose-p:leading-relaxed prose-strong:text-accent-foreground max-w-none">

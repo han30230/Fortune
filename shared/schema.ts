@@ -42,6 +42,14 @@ export const insertExchangeSchema = createInsertSchema(exchanges).omit({ id: tru
 export const insertPriceSchema = createInsertSchema(prices).omit({ id: true, updatedAt: true });
 export const insertFavoriteSchema = createInsertSchema(favorites).omit({ id: true, createdAt: true });
 
+// 운세 종류
+export const fortuneTypeOptions = [
+  { value: "today", label: "오늘의 운세" },
+  { value: "monthly", label: "이달의 운세" },
+  { value: "newyear", label: "신년 운세" },
+  { value: "compatibility", label: "궁합" },
+] as const;
+
 // 사주 분석 API용 스키마 (SajuForm, use-saju 등에서 사용)
 export const analyzeSajuSchema = z.object({
   name: z.string(),
@@ -49,6 +57,7 @@ export const analyzeSajuSchema = z.object({
   birthTime: z.string(),
   gender: z.string(),
   calendarType: z.string(),
+  fortuneType: z.enum(["today", "monthly", "newyear", "compatibility"]).optional(),
 });
 export const analyzeSajuResponseSchema = z.object({
   pillars: z.any(),

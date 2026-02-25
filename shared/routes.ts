@@ -47,6 +47,7 @@ export const api = {
         birthTime: z.string(),
         gender: z.string(),
         calendarType: z.string(),
+        fortuneType: z.enum(["today", "monthly", "newyear", "compatibility"]).optional(),
       }),
       responses: {
         200: z.object({
