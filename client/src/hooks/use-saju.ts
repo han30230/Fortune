@@ -16,7 +16,12 @@ export function useAnalyzeSaju() {
 
       if (!res.ok) {
         const errorText = await res.text();
-        throw new Error(errorText || "Failed to analyze Saju");
+        let message = errorText || "운세 조회에 실패했습니다.";
+        try {
+          const json = JSON.parse(errorText);
+          if (json.message) message = json.message;
+        } catch (_) {}
+        throw new Error(message);
       }
 
       const json = await res.json();

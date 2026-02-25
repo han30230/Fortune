@@ -1,4 +1,4 @@
-import type { Express } from "express";
+import type { Express, Request, Response } from "express";
 import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { api } from "@shared/routes";
@@ -29,8 +29,8 @@ export async function registerRoutes(
     res.json(mockData);
   });
 
-  // 사주 분석 API
-  app.post(api.saju.analyze.path, async (req, res) => {
+  // 사주 분석 핸들러 (공통)
+  const handleSajuAnalyze = async (req: Request, res: Response) => {
     try {
       const { name, birthDate, birthTime, gender, calendarType } = req.body as {
         name: string;
@@ -80,6 +80,16 @@ export async function registerRoutes(
         message: err instanceof Error ? err.message : "사주 계산 중 오류가 발생했습니다.",
       });
     }
+  };
+
+  // 사주 분석 API (정확한 경로)
+  app.post(api.saju.analyze.path, handleSajuAnalyze);
+  // Vercel rewrite 시 경로가 /api로 올 수 있음
+  app.post("/api", (req, res, next) => {
+    if (req.body && typeof req.body.birthDate === "string" && typeof req.body.name === "string") {
+      return handleSajuAnalyze(req, res);
+    }
+    next();
   });
 
   return httpServer;

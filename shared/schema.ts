@@ -47,8 +47,11 @@ export const fortuneTypeOptions = [
   { value: "today", label: "오늘의 운세" },
   { value: "monthly", label: "이달의 운세" },
   { value: "newyear", label: "신년 운세" },
+  { value: "career_wealth", label: "직업/재물운" },
   { value: "compatibility", label: "궁합" },
 ] as const;
+
+export const fortuneTypeEnum = ["today", "monthly", "newyear", "career_wealth", "compatibility"] as const;
 
 // 사주 분석 API용 스키마 (SajuForm, use-saju 등에서 사용)
 export const analyzeSajuSchema = z.object({
@@ -57,7 +60,7 @@ export const analyzeSajuSchema = z.object({
   birthTime: z.string(),
   gender: z.string(),
   calendarType: z.string(),
-  fortuneType: z.enum(["today", "monthly", "newyear", "compatibility"]).optional(),
+  fortuneType: z.enum(fortuneTypeEnum).optional(),
 });
 export const analyzeSajuResponseSchema = z.object({
   pillars: z.any(),

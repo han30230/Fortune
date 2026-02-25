@@ -9,10 +9,11 @@ import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
 export default function Home() {
-  const { mutate, isPending } = useAnalyzeSaju();
+  const { mutate, isPending, isError, error, reset } = useAnalyzeSaju();
   const [result, setResult] = useState<AnalyzeSajuResponse | null>(null);
 
   const handleSubmit = (data: any) => {
+    reset();
     mutate(data, {
       onSuccess: (data) => {
         setResult(data);
@@ -94,7 +95,12 @@ export default function Home() {
                   <span>10,000+ 명의 사용자가 이미 운세를 확인했습니다</span>
                 </div>
               </div>
-              <div className="order-1 lg:order-2">
+              <div className="order-1 lg:order-2 space-y-4">
+                {isError && (
+                  <div className="rounded-lg bg-destructive/10 border border-destructive/30 text-destructive px-4 py-3 text-sm">
+                    {error?.message || "운세 조회 중 오류가 발생했습니다."}
+                  </div>
+                )}
                 <SajuForm onSubmit={handleSubmit} isPending={isPending} />
               </div>
             </motion.div>
