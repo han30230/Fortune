@@ -79,7 +79,10 @@ export async function createApp(): Promise<{ app: Express; httpServer?: Server }
     return res.status(status).json({ message });
   });
 
-  if (process.env.NODE_ENV === "production") {
+  // Vercel은 정적 파일을 outputDirectory로 서빙하므로 여기서는 API만 처리
+  if (process.env.VERCEL) {
+    // API 전용: 정적 미들웨어 없음
+  } else if (process.env.NODE_ENV === "production") {
     serveStatic(app);
   } else {
     const { setupVite } = await import("./vite");
@@ -94,15 +97,8 @@ if (typeof process.env.VERCEL === "undefined") {
   createApp().then(({ httpServer }) => {
     if (!httpServer) return;
     const port = parseInt(process.env.PORT || "5000", 10);
-    httpServer.listen(
-      {
-        port,
-        host: "0.0.0.0",
-        reusePort: true,
-      },
-      () => {
-        log(`serving on port ${port}`);
-      },
-    );
+    httpServer.listen(port, "0.0.0.0", () => {
+      log(`serving on port ${port}`);
+    });
   });
 }
